@@ -7,8 +7,9 @@ const Search = () => {
 
   return (
     <>
-      <div className="header">
-        <h2>Marketing Management</h2>
+      <div className="d-flex justify-content-between">
+        <img src="/logo.png" alt="Logo" width={180}/>
+        {/* <h2>Marketing Management</h2> */}
       </div>
 
       <div className="searchBox mt-5 container-fluid">

@@ -1,8 +1,9 @@
 import React from "react";
+// import Logo from "/logo.png"
 
 const Logo = () => {
     return (
-        <p>IRONBELLY TECH</p>
+        <img src="/logo.png" alt="Logo" width={180}/>
     )
 }
 export default Logo;
