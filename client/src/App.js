@@ -11,9 +11,9 @@ function App() {
         fullName: "",
         email: "",
         phone: "",
-        position: "",
-        language: "",
-        experience: "",
+        position: "1",
+        language: "1",
+        experience: "1",
     });
 
     const changeHandler = (event) => {

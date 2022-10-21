@@ -55,9 +55,8 @@ const UserTable = ({ filterData }) => {
   // Search
   useEffect(() => {
     if (filterData !== "") {
-      let searchedData = data.filter((item) => {
-        let pattern = new RegExp(filterData, "gi");
-        return item.fullName.match(pattern);
+      let searchedData = duplicateData.filter((item) => {
+        return item.fullName.toLowerCase().trim().includes(filterData.toLowerCase().trim());
       });
       setData(searchedData);
 
