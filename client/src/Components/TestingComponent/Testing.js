@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Stack, Card, Button } from '@mui/material';
 
 import Logo from "../Logo/Logo";
@@ -12,30 +12,18 @@ import { useNavigate } from "react-router";
 const FinalScreen = () => {
     const [data, setData] = useState([]);
     const [country, setCountry] = useState("");
+    const [mount, setMount] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        window.onbeforeunload = function () {
-            return "Data will be lost if you leave the page, are you sure?";
-        };
 
-        return () => {
-            window.onbeforeunload = null;
-        };
-    }, []);
-
-
-    useEffect(() => {
-        (async () => {
+    const getQuestions = async () => {
+        try {
             const testID = localStorage.getItem("testID");
-            const userID = localStorage.getItem("userID")
-            // const { testID, userID } = user;
+            const userID = localStorage.getItem("userID");
             const data = {
                 testID,
                 userID
             }
-
-            // =====================================================================================
 
             const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/getQuestionFromId`, data);
 
@@ -52,19 +40,35 @@ const FinalScreen = () => {
                     navigate("/startTest", { replace: true });
                 }
             }
+        } 
+        catch (error) {
+            alert("Unexpected error occurred");
+            navigate("/startTest", { replace: true });
+        }
+    }
 
-            // =========================================================================================
-        })();
-    }, []);
+    const getCountry = async () => {
+        const res = await axios.get("http://ip-api.com/json");
+        setCountry(res.data?.country || "")
+    }
+
 
     useEffect(() => {
-        const getCountry = async() => {
-          // https://api.ipify.org/
-          const res = await axios.get("http://ip-api.com/json");
-          setCountry(res.data.country)
+        if (mount) {
+            getQuestions();
+            getCountry();
         }
-        getCountry();
-      }, [])
+        
+        setMount(true);
+
+        window.onbeforeunload = function () {
+            return "Data will be lost if you leave the page, are you sure?";
+        };
+
+        return () => {
+            window.onbeforeunload = null;
+        };
+    }, [mount]);
 
 
     const [index, setIndex] = useState(0);
