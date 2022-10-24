@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./InstructionPageStyles.css";
 import axios from "axios";
 import { Stack, Button, Typography, Container } from "@mui/material";
@@ -61,6 +61,19 @@ const Instruction_Page = () => {
             paragraph: "Try to find a time and place where you will not be interrupted during the test. The test will start on the next screen."
         }
     ]
+
+    useEffect(() => {
+        const checkIfUser = () => {
+            const user = localStorage.getItem("userID");
+            const email = localStorage.getItem("email");
+
+            if(!user || !email){
+                navigate("/", {replace:true});
+            }
+        }
+        checkIfUser();
+    }, []);
+    
 
     return (
         <>
